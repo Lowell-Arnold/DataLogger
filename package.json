@@ -1,0 +1,19 @@
+{
+  "name": "rocket-stat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "Lowell Arnold",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^10.1.2"
+  },
+  "dependencies": {
+    "chart.js": "^2.9.4",
+    "electron-builder": "^22.10.5"
+  }
+}
