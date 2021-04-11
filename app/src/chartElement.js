@@ -11,23 +11,32 @@ var ChartElement = (function () {
             this.element = element;
             this.label = label;
             this.dataPosition = dataPosition;
+            this.firstBuild = true;
         }
     }
-    ChartElement.prototype.build = function (obj) {
-        this.chart = new Chart(this.element, {
-            type: "line",
-            data: {
-                labels: obj.getLength(),
-                datasets: [
-                    {
-                        label: this.label,
-                        backgroundColor: 'rgba(255,0,0,0.4)',
-                        borderColor: 'rgba(255,0,0,1)',
-                        data: obj.getStats(this.dataPosition)
-                    }
-                ]
-            }
-        });
+    ChartElement.prototype.build = function (obj, controller) {
+        if (this.firstBuild) {
+            this.chart = new Chart(this.element, {
+                type: "line",
+                data: {
+                    labels: controller.transformData(obj.getLength()),
+                    datasets: [
+                        {
+                            label: this.label,
+                            backgroundColor: 'rgba(255,0,0,0.4)',
+                            borderColor: 'rgba(255,0,0,1)',
+                            data: controller.transformData(obj.getStats(this.dataPosition))
+                        }
+                    ]
+                }
+            });
+            this.firstBuild = false;
+        }
+        else {
+            this.chart.data.labels = controller.transformData(obj.getLength());
+            this.chart.data.datasets[0].data = controller.transformData(obj.getStats(this.dataPosition));
+            this.chart.update();
+        }
     };
     return ChartElement;
 }());

@@ -41,14 +41,16 @@ var dataString_1 = require("./dataString");
 var chartElement_1 = require("./chartElement");
 var electron_1 = require("electron");
 var storage_1 = require("./storage");
+var pageController_1 = require("./pageController");
 var Main = (function () {
     function Main() {
         var _this = this;
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f, _g;
         this.charts = [];
         this.dataStr = new dataString_1.DataString();
-        var dataObj = this.dataStr.build("0!0!0!0!0!0&");
         this.storage = new storage_1.Storage("0!0!0!0!0!0&");
+        this.pageContoller = new pageController_1.PageController(20);
+        var dataObj = this.dataStr.build("0!0!0!0!0!0&");
         this.charts.push(new chartElement_1.ChartElement(document.getElementById("tempStat"), "Temperatur", 3));
         this.updateAllCharts(dataObj);
         window.addEventListener("scroll", function () {
@@ -59,7 +61,6 @@ var Main = (function () {
                 document.getElementsByClassName("secondHeader")[0].style.position = "fixed";
                 document.getElementsByClassName("secondHeader")[0].style.width = "100%";
                 document.getElementsByClassName("secondHeader")[0].style.top = "50px";
-                document.getElementsByClassName("secondHeader")[0].style.backgroundColor = "#e0e0e0";
             }
             else {
                 document.getElementsByClassName("header")[0].style.position = "";
@@ -68,7 +69,6 @@ var Main = (function () {
                 document.getElementsByClassName("secondHeader")[0].style.position = "";
                 document.getElementsByClassName("secondHeader")[0].style.width = "";
                 document.getElementsByClassName("secondHeader")[0].style.top = "";
-                document.getElementsByClassName("secondHeader")[0].style.backgroundColor = "";
             }
         });
         (_a = document.getElementById('buttonDataLog')) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function () { return __awaiter(_this, void 0, void 0, function () {
@@ -122,13 +122,30 @@ var Main = (function () {
             });
             document.getElementById("storageCount").value = _this.storage.getIndex().toString();
         });
+        (_f = document.getElementById("pageBack")) === null || _f === void 0 ? void 0 : _f.addEventListener("click", function () {
+            _this.pageContoller.pageBack();
+            _this.storage.getStorageByIndex(function (storageItem) {
+                var dataObj = _this.dataStr.build(storageItem);
+                _this.updateAllCharts(dataObj);
+            });
+            document.getElementById("pageCount").value = (_this.pageContoller.getPageIndex() + 1).toString();
+        });
+        (_g = document.getElementById("pageNext")) === null || _g === void 0 ? void 0 : _g.addEventListener("click", function () {
+            _this.pageContoller.pageNext();
+            _this.storage.getStorageByIndex(function (storageItem) {
+                var dataObj = _this.dataStr.build(storageItem);
+                _this.updateAllCharts(dataObj);
+            });
+            document.getElementById("pageCount").value = (_this.pageContoller.getPageIndex() + 1).toString();
+        });
     }
     Main.main = function () {
         new Main();
     };
     Main.prototype.updateAllCharts = function (dataObj) {
+        var _this = this;
         this.charts.forEach(function (value) {
-            value.build(dataObj);
+            value.build(dataObj, _this.pageContoller);
         });
     };
     return Main;

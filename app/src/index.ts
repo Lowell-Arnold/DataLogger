@@ -3,11 +3,13 @@ import {DataObj} from "./dataObj";
 import {ChartElement} from "./chartElement";
 import {ipcRenderer} from "electron";
 import {Storage} from "./storage";
+import {PageController} from "./pageController";
 
 export class Main {
     private dataStr: DataString;
     private charts: ChartElement[] = [];
     private storage: Storage;
+    private pageContoller: PageController;
 
     public static main() {
         new Main();
@@ -15,8 +17,11 @@ export class Main {
 
     public constructor() {
         this.dataStr = new DataString();
-        let dataObj: DataObj = this.dataStr.build("0!0!0!0!0!0&");
         this.storage = new Storage("0!0!0!0!0!0&");
+        this.pageContoller = new PageController(20);
+
+        let dataObj: DataObj = this.dataStr.build("0!0!0!0!0!0&");
+
         this.charts.push(new ChartElement(document.getElementById("tempStat"), "Temperatur", 3));
         this.updateAllCharts(dataObj);
 
@@ -91,8 +96,8 @@ export class Main {
         document.getElementById("storageNext")?.addEventListener("click", () => {
             this.storage.nextStorage();
             this.storage.getStorageByIndex(storageItem => {
-               let dataObj: DataObj = this.dataStr.build(storageItem);
-               this.updateAllCharts(dataObj);
+                let dataObj: DataObj = this.dataStr.build(storageItem);
+                this.updateAllCharts(dataObj);
             });
 
             // @ts-ignore
@@ -108,11 +113,33 @@ export class Main {
             // @ts-ignore
             document.getElementById("storageCount").value = this.storage.getIndex().toString();
         });
+
+        document.getElementById("pageBack")?.addEventListener("click", () => {
+            this.pageContoller.pageBack();
+            this.storage.getStorageByIndex((storageItem) => {
+               let dataObj: DataObj = this.dataStr.build(storageItem);
+               this.updateAllCharts(dataObj);
+            });
+
+            // @ts-ignore
+            document.getElementById("pageCount").value =(this.pageContoller.getPageIndex() +1).toString();
+        });
+
+        document.getElementById("pageNext")?.addEventListener("click", () => {
+            this.pageContoller.pageNext();
+            this.storage.getStorageByIndex((storageItem) => {
+                let dataObj: DataObj = this.dataStr.build(storageItem);
+                this.updateAllCharts(dataObj);
+            });
+
+            // @ts-ignore
+            document.getElementById("pageCount").value =(this.pageContoller.getPageIndex() +1).toString();
+        });
     }
 
     private updateAllCharts(dataObj: DataObj) {
         this.charts.forEach((value) => {
-            value.build(dataObj);
+            value.build(dataObj, this.pageContoller);
         });
     }
 }
