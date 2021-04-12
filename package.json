@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && electron ."
+    "start": "tsc && electron .",
+    "build": "tsc && electron-builder build --win --publish never"
   },
   "author": "Lowell Arnold",
   "license": "ISC",

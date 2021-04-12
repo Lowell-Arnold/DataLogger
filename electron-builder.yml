@@ -1,0 +1,4 @@
+appId: "com.electron.DataLogger"
+icon: "res/icon/icon.ico"
+productName: "Data Logger"
+asar: "true"
