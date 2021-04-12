@@ -3,14 +3,20 @@ import {PageController} from "./pageController";
 
 const Chart = require("chart.js");
 
+export interface IChartColor {
+    background: string;
+    border: string;
+}
+
 export class ChartElement {
     private readonly element: HTMLElement;
     private readonly label: string;
     private readonly dataPosition: number;
     private chart: any;
     private firstBuild: boolean;
+    private color: IChartColor;
 
-    public constructor(element: HTMLElement | null, label: string, dataPosition: number) {
+    public constructor(element: HTMLElement | null, label: string, dataPosition: number, color: IChartColor) {
         if (element === null) {
             throw "Element is not a HTML element";
         } else {
@@ -18,6 +24,7 @@ export class ChartElement {
             this.label = label;
             this.dataPosition = dataPosition;
             this.firstBuild = true;
+            this.color = color;
         }
     }
 
@@ -30,8 +37,8 @@ export class ChartElement {
                     datasets: [
                         {
                             label: this.label,
-                            backgroundColor: 'rgba(255,0,0,0.4)',
-                            borderColor: 'rgba(255,0,0,1)',
+                            backgroundColor: this.color.background,
+                            borderColor: this.color.border,
                             data: controller.transformData(<string[]>obj.getStats(this.dataPosition))
                         }
                     ]

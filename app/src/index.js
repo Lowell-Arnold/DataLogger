@@ -51,7 +51,19 @@ var Main = (function () {
         this.storage = new storage_1.Storage("0!0!0!0!0!0&");
         this.pageContoller = new pageController_1.PageController(20);
         var dataObj = this.dataStr.build("0!0!0!0!0!0&");
-        this.charts.push(new chartElement_1.ChartElement(document.getElementById("tempStat"), "Temperatur", 3));
+        console.log(dataObj.getObj());
+        this.charts.push(new chartElement_1.ChartElement(document.getElementById("tempStat"), "Temperatur", 3, {
+            background: "rgba(1,250,0,0.25)",
+            border: "rgb(61,175,33)"
+        }));
+        this.charts.push(new chartElement_1.ChartElement(document.getElementById("pressureStat"), "Luftdruck", 4, {
+            background: "rgba(0,255,241, 0.25)",
+            border: "rgb(0,154,179)"
+        }));
+        this.charts.push(new chartElement_1.ChartElement(document.getElementById("highStat"), "Flug Höhe", 5, {
+            background: "rgba(255,0,0,0.25)",
+            border: "rgb(206,14,14)"
+        }));
         this.updateAllCharts(dataObj);
         window.addEventListener("scroll", function () {
             if (this.scrollY > 0) {

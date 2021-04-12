@@ -21,8 +21,19 @@ export class Main {
         this.pageContoller = new PageController(20);
 
         let dataObj: DataObj = this.dataStr.build("0!0!0!0!0!0&");
-
-        this.charts.push(new ChartElement(document.getElementById("tempStat"), "Temperatur", 3));
+        console.log(dataObj.getObj());
+        this.charts.push(new ChartElement(document.getElementById("tempStat"), "Temperatur", 3, {
+            background: "rgba(1,250,0,0.25)",
+            border: "rgb(61,175,33)"
+        }));
+        this.charts.push(new ChartElement(document.getElementById("pressureStat"), "Luftdruck", 4, {
+            background: "rgba(0,255,241, 0.25)",
+            border: "rgb(0,154,179)"
+        }));
+        this.charts.push(new ChartElement(document.getElementById("highStat"), "Flug Höhe", 5 , {
+            background: "rgba(255,0,0,0.25)",
+            border: "rgb(206,14,14)"
+        }));
         this.updateAllCharts(dataObj);
 
         window.addEventListener("scroll", function () {
@@ -117,12 +128,12 @@ export class Main {
         document.getElementById("pageBack")?.addEventListener("click", () => {
             this.pageContoller.pageBack();
             this.storage.getStorageByIndex((storageItem) => {
-               let dataObj: DataObj = this.dataStr.build(storageItem);
-               this.updateAllCharts(dataObj);
+                let dataObj: DataObj = this.dataStr.build(storageItem);
+                this.updateAllCharts(dataObj);
             });
 
             // @ts-ignore
-            document.getElementById("pageCount").value =(this.pageContoller.getPageIndex() +1).toString();
+            document.getElementById("pageCount").value = (this.pageContoller.getPageIndex() + 1).toString();
         });
 
         document.getElementById("pageNext")?.addEventListener("click", () => {
@@ -133,7 +144,7 @@ export class Main {
             });
 
             // @ts-ignore
-            document.getElementById("pageCount").value =(this.pageContoller.getPageIndex() +1).toString();
+            document.getElementById("pageCount").value = (this.pageContoller.getPageIndex() + 1).toString();
         });
     }
 

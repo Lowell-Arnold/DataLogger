@@ -11,7 +11,7 @@ var DataString = (function () {
         for (var i = 0; i < rows.length - 1; i++) {
             obj.push([]);
             var columns = rows[i].split("!");
-            for (var k = 0; k < columns.length - 1; k++) {
+            for (var k = 0; k < columns.length; k++) {
                 obj[i].push(columns[k]);
             }
         }

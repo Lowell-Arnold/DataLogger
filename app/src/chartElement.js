@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChartElement = void 0;
 var Chart = require("chart.js");
 var ChartElement = (function () {
-    function ChartElement(element, label, dataPosition) {
+    function ChartElement(element, label, dataPosition, color) {
         if (element === null) {
             throw "Element is not a HTML element";
         }
@@ -12,6 +12,7 @@ var ChartElement = (function () {
             this.label = label;
             this.dataPosition = dataPosition;
             this.firstBuild = true;
+            this.color = color;
         }
     }
     ChartElement.prototype.build = function (obj, controller) {
@@ -23,8 +24,8 @@ var ChartElement = (function () {
                     datasets: [
                         {
                             label: this.label,
-                            backgroundColor: 'rgba(255,0,0,0.4)',
-                            borderColor: 'rgba(255,0,0,1)',
+                            backgroundColor: this.color.background,
+                            borderColor: this.color.border,
                             data: controller.transformData(obj.getStats(this.dataPosition))
                         }
                     ]
