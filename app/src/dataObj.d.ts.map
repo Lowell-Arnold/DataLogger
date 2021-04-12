@@ -1,0 +1,1 @@
+{"version":3,"file":"dataObj.d.ts","sourceRoot":"","sources":["dataObj.ts"],"names":[],"mappings":"AAAA,qBAAa,OAAO;IAChB,OAAO,CAAC,QAAQ,CAAC,IAAI,CAAW;gBAEpB,IAAI,EAAE,MAAM,EAAE;IAInB,MAAM,IAAI,MAAM,EAAE;IAIlB,QAAQ,CAAC,KAAK,EAAE,MAAM,GAAG,MAAM,EAAE,GAAG,KAAK;IAezC,SAAS,IAAI,MAAM,EAAE;CAS/B"}
